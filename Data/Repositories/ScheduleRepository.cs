@@ -70,5 +70,40 @@ namespace KWMS.Data.Repositories
                 }
             }
         }
+        /// <summary>
+        /// Cancels a Scheduled collection AND its task in one transaction.
+        /// Returns false if the schedule is not this company's, is already cancelled, or its task
+        /// has already started or finished.
+        /// </summary>
+        public bool Cancel(int scheduleId, int companyId)
+        {
+            const string cancelTaskSql = @"
+                UPDATE CollectionTasks t
+                JOIN CollectionSchedules cs ON cs.ScheduleID = t.ScheduleID
+                JOIN Subscriptions sub ON sub.SubscriptionID = cs.SubscriptionID
+                JOIN Services sv ON sv.ServiceID = sub.ServiceID
+                SET t.Status = 'Cancelled'
+                WHERE cs.ScheduleID = @scheduleId AND cs.Status = 'Scheduled'
+                  AND sv.CompanyID = @companyId AND t.Status IN ('Pending', 'Assigned');";
+
+            using (MySqlConnection connection = DatabaseConnection.GetConnection())
+            {
+                connection.Open();
+                using (MySqlTransaction transaction = connection.BeginTransaction())
+                {
+                    int changed = ExecuteUpdateIn(connection, transaction, cancelTaskSql,
+                        P("@scheduleId", scheduleId), P("@companyId", companyId));
+
+                    if (changed == 0) return false;
+
+                    ExecuteUpdateIn(connection, transaction,
+                        "UPDATE CollectionSchedules SET Status = 'Cancelled' WHERE ScheduleID = @scheduleId;",
+                        P("@scheduleId", scheduleId));
+
+                    transaction.Commit();
+                    return true;
+                }
+            }
+        }
     }
 }

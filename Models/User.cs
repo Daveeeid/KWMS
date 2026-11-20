@@ -18,5 +18,15 @@
         // Managers and workers must belong to a company. Admins and residents do not.
         public bool RequiresCompany =>
             Role == UserRole.CompanyManager || Role == UserRole.CollectionWorker;
+
+        // Friendly role text for grids (the enum name "CompanyManager" looks unpolished on screen)
+        public string RoleDisplay => Role switch
+        {
+            UserRole.Admin => "Administrator",
+            UserRole.CompanyManager => "Company Manager",
+            UserRole.CollectionWorker => "Collection Worker",
+            UserRole.Resident => "Resident",
+            _ => Role.ToString()
+        };
     }
 }

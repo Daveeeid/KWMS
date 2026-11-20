@@ -20,5 +20,7 @@
         public string ResidentLocation { get; set; } = string.Empty;
 
         public bool IsActive => Status == SubscriptionStatus.Active;
+
+        public string DisplayText => $"{ResidentName} - {ServiceName}";
     }
 }

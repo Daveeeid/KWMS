@@ -39,5 +39,8 @@ namespace KWMS.Data
             int index = reader.GetOrdinal(column);
             return reader.IsDBNull(index) ? null : reader.GetDateTime(index);
         }
+
+        public static int ReadCount(this MySqlDataReader reader, string column) =>
+        Convert.ToInt32(reader.GetValue(reader.GetOrdinal(column)));
     }
 }

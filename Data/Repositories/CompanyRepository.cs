@@ -8,6 +8,38 @@ namespace KWMS.Data.Repositories
         private const string SelectAll =
             "SELECT CompanyID, CompanyName, RegistrationNumber, Phone, Address, Status, CreatedAt FROM Companies ";
 
+        private readonly UserRepository _userRepository = new UserRepository();
+
+        /// <summary>
+        /// Creates the Companies row AND the company's first manager (Users row) in ONE transaction.
+        /// If the user insert fails, the company insert is rolled back too. Returns the new CompanyID.
+        /// </summary>
+        public int RegisterWithManager(Company company, User manager)
+        {
+            const string sql = @"INSERT INTO Companies (CompanyName, RegistrationNumber, Phone, Address, Status)
+                                 VALUES (@name, @reg, @phone, @address, 'Active');";
+
+            using (MySqlConnection connection = DatabaseConnection.GetConnection())
+            {
+                connection.Open();
+                using (MySqlTransaction transaction = connection.BeginTransaction())
+                {
+                    int companyId = ExecuteInsertIn(connection, transaction, sql,
+                        P("@name", company.CompanyName), P("@reg", company.RegistrationNumber),
+                        P("@phone", company.Phone), P("@address", company.Address));
+
+                    // Rules 1 and 5: fixed role, and the manager belongs to the new company
+                    manager.Role = UserRole.CompanyManager;
+                    manager.CompanyID = companyId;
+                    manager.AccountStatus = RecordStatus.Active;
+                    _userRepository.Insert(manager, connection, transaction);
+
+                    transaction.Commit();
+                    return companyId;
+                }
+            }
+        }
+
         private static Company MapCompany(MySqlDataReader r) => new Company
         {
             CompanyID = r.ReadInt("CompanyID"),

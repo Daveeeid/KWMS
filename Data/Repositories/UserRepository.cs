@@ -80,5 +80,9 @@ namespace KWMS.Data.Repositories
         // Used at startup to decide whether the first admin must be created
         public bool AnyAdminExists() =>
             Exists("SELECT COUNT(*) FROM Users WHERE Role = 'ADMIN';");
+
+        public bool UpdatePasswordHash(int userId, string passwordHash) =>
+        ExecuteUpdate("UPDATE Users SET PasswordHash = @hash WHERE UserID = @id;",
+        P("@hash", passwordHash), P("@id", userId)) > 0;
     }
 }

@@ -24,5 +24,7 @@
         public bool CanBeAssigned => Status == CollectionTaskStatus.Pending || Status == CollectionTaskStatus.Assigned;
         public bool CanStart => Status == CollectionTaskStatus.Assigned && WorkerID != null;   // rule 7
         public bool CanComplete => Status == CollectionTaskStatus.InProgress;                  // rule 8
+        public string StatusDisplay =>
+            Status == CollectionTaskStatus.InProgress ? "In progress" : Status.ToString();
     }
 }
