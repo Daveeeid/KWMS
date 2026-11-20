@@ -10,9 +10,9 @@
             AddMenuItem("Residents", () => new SubscribersControl());
             AddMenuItem("Schedules", () => new SchedulesControl());
             AddMenuItem("Tasks", () => new TasksControl());
-            AddMenuItem("Pickup Requests");   // Stage 8
-            AddMenuItem("Payments");          // Stage 9
-            AddMenuItem("Complaints");        // Stage 9
+            AddMenuItem("Pickup Requests", () => new ManagerPickupRequestsControl());
+            AddMenuItem("Payments", () => new ManagerPaymentsControl());
+            AddMenuItem("Complaints", () => new ManagerComplaintsControl());
         }
     }
 }

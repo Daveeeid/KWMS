@@ -22,5 +22,7 @@
         public bool IsActive => Status == SubscriptionStatus.Active;
 
         public string DisplayText => $"{ResidentName} - {ServiceName}";
+        // The payment drop-down needs the status, because a resident can have past subscriptions
+        public string PaymentDisplayText => $"{ResidentName} - {ServiceName} ({Status}, since {StartDate:dd MMM yyyy})";
     }
 }

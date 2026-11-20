@@ -4,15 +4,14 @@
     {
         public ResidentDashboardForm() : base("Resident")
         {
-            AddMenuItem("Dashboard");
-            AddMenuItem("My Profile");
-            AddMenuItem("Companies");
-            AddMenuItem("My Subscription");
-            AddMenuItem("Schedules");
-            AddMenuItem("Pickup Requests");
-            AddMenuItem("Payments");
-            AddMenuItem("Complaints");
-            ShowDescription("Stages 8 and 9 add: your profile, subscriptions, pickup requests, payment history and complaints.");
+            AddMenuItem("Dashboard", () => new ResidentHomeControl(), showNow: true);
+            AddMenuItem("My Profile", () => new ProfileControl());
+            AddMenuItem("Companies", () => new BrowseCompaniesControl());
+            AddMenuItem("My Subscription", () => new MySubscriptionsControl());
+            AddMenuItem("Schedules", () => new MySchedulesControl());
+            AddMenuItem("Pickup Requests", () => new MyPickupRequestsControl());
+            AddMenuItem("Payments", () => new MyPaymentsControl());
+            AddMenuItem("Complaints", () => new MyComplaintsControl());
         }
     }
 }

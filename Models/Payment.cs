@@ -17,5 +17,12 @@
         public string ServiceName { get; set; } = string.Empty;
         public string CompanyName { get; set; } = string.Empty;
         public string RecordedByName { get; set; } = string.Empty;
+
+        public string MethodDisplay => PaymentMethod switch
+        {
+            PaymentMethod.MobileMoney => "Mobile Money",
+            PaymentMethod.BankTransfer => "Bank Transfer",
+            _ => "Cash"
+        };
     }
 }

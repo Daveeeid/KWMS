@@ -13,5 +13,7 @@
         // Display only
         public string ResidentName { get; set; } = string.Empty;
         public string CompanyName { get; set; } = string.Empty;
+
+        public string StatusDisplay => Status == ComplaintStatus.InProgress ? "In progress" : Status.ToString();
     }
 }

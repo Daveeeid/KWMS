@@ -71,5 +71,42 @@ namespace KWMS.Data.Repositories
             ExecuteUpdate(@"UPDATE Subscriptions SET Status = 'Cancelled', EndDate = CURDATE()
                             WHERE SubscriptionID = @id AND ResidentID = @residentId AND Status = 'Active';",
                 P("@id", subscriptionId), P("@residentId", residentId)) > 0;
+
+        public bool CancelAndCleanUp(int subscriptionId, int residentId)
+        {
+            const string cancelSql = @"UPDATE Subscriptions SET Status = 'Cancelled', EndDate = CURDATE()
+                WHERE SubscriptionID = @id AND ResidentID = @residentId AND Status = 'Active';";
+            const string schedulesSql = @"UPDATE CollectionSchedules cs SET cs.Status = 'Cancelled'
+                WHERE cs.SubscriptionID = @id AND cs.Status = 'Scheduled'
+                  AND NOT EXISTS (SELECT 1 FROM CollectionTasks t WHERE t.ScheduleID = cs.ScheduleID
+                                  AND t.Status IN ('InProgress', 'Completed'));";
+            const string requestsSql = @"UPDATE PickupRequests pr SET pr.Status = 'Rejected'
+                WHERE pr.SubscriptionID = @id AND pr.Status IN ('Pending', 'Approved')
+                  AND NOT EXISTS (SELECT 1 FROM CollectionTasks t WHERE t.PickupRequestID = pr.RequestID
+                                  AND t.Status IN ('InProgress', 'Completed'));";
+            const string tasksSql = @"UPDATE CollectionTasks t
+                LEFT JOIN CollectionSchedules cs ON cs.ScheduleID = t.ScheduleID
+                LEFT JOIN PickupRequests pr ON pr.RequestID = t.PickupRequestID
+                SET t.Status = 'Cancelled'
+                WHERE COALESCE(cs.SubscriptionID, pr.SubscriptionID) = @id AND t.Status IN ('Pending', 'Assigned');";
+
+            using (MySqlConnection connection = DatabaseConnection.GetConnection())
+            {
+                connection.Open();
+                using (MySqlTransaction transaction = connection.BeginTransaction())
+                {
+                    int changed = ExecuteUpdateIn(connection, transaction, cancelSql,
+                        P("@id", subscriptionId), P("@residentId", residentId));
+                    if (changed == 0) return false;
+
+                    ExecuteUpdateIn(connection, transaction, schedulesSql, P("@id", subscriptionId));
+                    ExecuteUpdateIn(connection, transaction, requestsSql, P("@id", subscriptionId));
+                    ExecuteUpdateIn(connection, transaction, tasksSql, P("@id", subscriptionId));
+
+                    transaction.Commit();
+                    return true;
+                }
+            }
+        }
     }
 }

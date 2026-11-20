@@ -10,7 +10,12 @@ namespace KWMS
         {
             ApplicationConfiguration.Initialize();
 
-            // 1. First-run setup: make sure an administrator exists
+            // Last line of defence: any exception nobody caught shows a message instead of crashing
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ThreadException += (sender, e) =>
+                MessageBox.Show("An unexpected error occurred. The action was not completed.\n\n" + e.Exception.Message,
+                    "KWMS - Unexpected error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             OperationResult setup = new AuthController().EnsureDefaultAdmin();
 
             if (!setup.Success)
@@ -23,21 +28,20 @@ namespace KWMS
                 MessageBox.Show(setup.Message, "KWMS - First-time setup", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            // 2. Login -> dashboard -> (log out) -> login ... until the user closes a window with X
             while (true)
             {
                 using (LoginForm login = new LoginForm())
                 {
-                    if (login.ShowDialog() != DialogResult.OK) break;   // login window closed: exit app
+                    if (login.ShowDialog() != DialogResult.OK) break;
                 }
 
                 using (Form dashboard = DashboardFactory.Create(SessionManager.CurrentUser!))
                 {
                     DialogResult result = dashboard.ShowDialog();
-                    SessionManager.End();                                // always clear the session
+                    SessionManager.End();
 
-                    if (result != DialogResult.Retry) break;             // closed with X: exit app
-                }                                                        // Retry = logged out: back to login
+                    if (result != DialogResult.Retry) break;
+                }
             }
         }
     }
