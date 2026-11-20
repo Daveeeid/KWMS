@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -33,11 +33,11 @@ namespace KWMS.Data.Repositories
             RecordedByName = r.ReadString("RecordedByName")
         };
 
-        /// <summary>
-        /// Rules 9 and 10. The payment is inserted only if the subscription exists AND belongs to
-        /// this company AND RecordedByUserID is a COMPANY_MANAGER of that same company.
-        /// Returns the new PaymentID, or 0 if any condition fails.
-        /// </summary>
+
+
+
+
+
         public int Record(Payment payment, int companyId)
         {
             const string sql = @"INSERT INTO Payments (SubscriptionID, RecordedByUserID, Amount, PaymentMethod, PaymentDate, ReferenceNumber, Notes)

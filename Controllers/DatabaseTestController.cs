@@ -1,4 +1,4 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace KWMS.Controller
     {
         private readonly DatabaseCheckRepository _repository = new DatabaseCheckRepository();
 
-        // The columns we EXPECT, copied exactly from your existing schema
+
         private readonly Dictionary<string, string[]> _expectedColumns =
             new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
             {
@@ -26,23 +26,23 @@ namespace KWMS.Controller
                 }
             };
 
-        /// <summary>
-        /// Runs all checks and returns a report. Returns text instead of throwing,
-        /// so the View can simply show it.
-        /// </summary>
+
+
+
+
         public string RunConnectionTest()
         {
             StringBuilder report = new StringBuilder();
 
             try
             {
-                // 1. Connection + version
+
                 string version = _repository.GetServerVersion();
                 report.AppendLine("✔ Connected to KWMS_DB successfully.");
                 report.AppendLine($"  Server version: {version}");
                 report.AppendLine();
 
-                // 2. Verify existing tables and columns
+
                 var actualTables = _repository.GetColumnsOfTables("Companies", "Users");
 
                 foreach (var expected in _expectedColumns)

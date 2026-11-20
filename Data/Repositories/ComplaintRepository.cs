@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -35,7 +35,7 @@ namespace KWMS.Data.Repositories
             ManagerName = r.ReadString("ManagerName")
         };
 
-        // Rule 12: a complaint always has a resident and a company (both are NOT NULL foreign keys)
+
         public int Create(Complaint complaint) =>
             ExecuteInsert(@"INSERT INTO Complaints (ResidentID, CompanyID, Subject, Description)
                             VALUES (@residentId, @companyId, @subject, @description);",
@@ -57,7 +57,7 @@ namespace KWMS.Data.Repositories
                       WHERE cr.ComplaintID = @complaintId ORDER BY cr.CreatedAt;",
                 MapResponse, P("@complaintId", complaintId));
 
-        // Inserted only if the complaint belongs to this company and the responder is a manager of it
+
         public int AddResponse(ComplaintResponse response, int companyId)
         {
             const string sql = @"INSERT INTO ComplaintResponses (ComplaintID, ManagerUserID, ResponseText)

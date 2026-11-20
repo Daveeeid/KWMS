@@ -1,8 +1,8 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>Chooses which dashboard to open for the logged-in user's role.</summary>
+
     public static class DashboardFactory
     {
         public static Form Create(User user) => user.Role switch

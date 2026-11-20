@@ -1,4 +1,4 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
@@ -33,7 +33,7 @@ namespace KWMS.Controllers
                 if (description.Length < 5 || description.Length > 255) errors.Add("Description must be 5 to 255 characters.");
                 if (errors.Count > 0) return OperationResult.Fail(ValidationHelper.FormatErrors(errors));
 
-                // Rule 3: an active subscription is required
+
                 Subscription? active = _subscriptions.GetActiveByResident(resident.ResidentID);
                 if (active == null)
                     return OperationResult.Fail("You need an active subscription before you can request an additional collection.");

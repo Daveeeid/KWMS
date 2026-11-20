@@ -1,4 +1,4 @@
-﻿namespace KWMS.Models
+namespace KWMS.Models
 {
     public class Company
     {
@@ -12,7 +12,7 @@
 
         public bool IsActive => Status == RecordStatus.Active;
 
-        // Business rule 4: inactive companies cannot accept new subscriptions
+
         public bool CanAcceptNewSubscriptions() => IsActive;
     }
 }

@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -36,11 +36,11 @@ namespace KWMS.Data.Repositories
             GetList(SelectAll + "WHERE sub.ResidentID = @residentId ORDER BY cs.CollectionDate DESC, cs.CollectionTime;",
                 MapSchedule, P("@residentId", residentId));
 
-        /// <summary>
-        /// Creates a schedule AND its matching Pending task in one transaction.
-        /// Returns the new ScheduleID, or 0 if the subscription is not Active or does not
-        /// belong to this company (rule 5).
-        /// </summary>
+
+
+
+
+
         public int Create(CollectionSchedule schedule, int companyId)
         {
             const string scheduleSql = @"INSERT INTO CollectionSchedules (SubscriptionID, CollectionDate, CollectionTime, Notes)
@@ -59,7 +59,7 @@ namespace KWMS.Data.Repositories
                         P("@notes", schedule.Notes), P("@subscriptionId", schedule.SubscriptionID),
                         P("@companyId", companyId));
 
-                    if (scheduleId == 0) return 0;   // nothing inserted; transaction is disposed (rolled back)
+                    if (scheduleId == 0) return 0;
 
                     ExecuteInsertIn(connection, transaction,
                         "INSERT INTO CollectionTasks (ScheduleID) VALUES (@scheduleId);",
@@ -70,11 +70,11 @@ namespace KWMS.Data.Repositories
                 }
             }
         }
-        /// <summary>
-        /// Cancels a Scheduled collection AND its task in one transaction.
-        /// Returns false if the schedule is not this company's, is already cancelled, or its task
-        /// has already started or finished.
-        /// </summary>
+
+
+
+
+
         public bool Cancel(int scheduleId, int companyId)
         {
             const string cancelTaskSql = @"

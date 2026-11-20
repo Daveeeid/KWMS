@@ -1,9 +1,9 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>Resident self-registration. Validation lives in AuthController, not here.</summary>
+
     public class RegisterForm : Form
     {
         private readonly AuthController _controller = new AuthController();
@@ -35,12 +35,12 @@ namespace KWMS.Views
             BackColor = Theme.Background;
             Font = Theme.BaseFont;
 
-            // Scrollable area for the fields
+
             _fieldsPanel.Dock = DockStyle.Fill;
             _fieldsPanel.AutoScroll = true;
 
             _districtBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            _districtBox.Items.AddRange(AuthController.KigaliDistricts);   // Gasabo, Kicukiro, Nyarugenge
+            _districtBox.Items.AddRange(AuthController.KigaliDistricts);
             _householdBox.Minimum = 1;
             _householdBox.Maximum = 50;
             _householdBox.Value = 1;
@@ -65,7 +65,7 @@ namespace KWMS.Views
             AddRow("Password *  (8+ characters, a letter and a digit)", _passwordBox);
             AddRow("Confirm password *", _confirmBox);
 
-            // Buttons stay visible at the bottom
+
             Panel buttonPanel = new Panel { Dock = DockStyle.Bottom, Height = 70, BackColor = Theme.Background };
 
             Button registerButton = new Button { Text = "Create account" };
@@ -79,13 +79,13 @@ namespace KWMS.Views
             buttonPanel.Controls.Add(registerButton);
             buttonPanel.Controls.Add(cancelButton);
 
-            // Fill control first, then the Bottom control (so docking lays out correctly)
+
             Controls.Add(_fieldsPanel);
             Controls.Add(buttonPanel);
             CancelButton = cancelButton;
         }
 
-        // Adds "label above input" at the next free vertical position
+
         private void AddRow(string labelText, Control input)
         {
             _fieldsPanel.Controls.Add(new Label

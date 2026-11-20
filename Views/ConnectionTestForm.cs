@@ -1,9 +1,9 @@
-﻿using KWMS.Controller;
+using KWMS.Controller;
 using KWMS.Controllers;
 
 namespace KWMS.Views
 {
-    /// <summary>Temporary form for testing. Deleted when the Login form is created in Stage 4.</summary>
+
     public class ConnectionTestForm : Form
     {
         private readonly DatabaseTestController _connectionController = new DatabaseTestController();
@@ -40,11 +40,11 @@ namespace KWMS.Views
             _resultTextBox.Dock = DockStyle.Fill;
             _resultTextBox.Font = new Font("Consolas", 10);
 
-            Controls.Add(_resultTextBox);   // Fill first, then Top
+            Controls.Add(_resultTextBox);
             Controls.Add(_buttonPanel);
         }
 
-        // Shows "Running...", calls the controller, then shows the report
+
         private void RunAction(Func<string> action)
         {
             _resultTextBox.Text = "Running...";

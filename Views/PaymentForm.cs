@@ -1,9 +1,9 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>The manager records a payment received outside the app (cash, mobile money or bank).</summary>
+
     public class PaymentForm : FieldsDialog
     {
         private readonly PaymentController _controller = new PaymentController();
@@ -30,7 +30,7 @@ namespace KWMS.Views
 
         public PaymentForm() : base("Record payment", 480, "Record payment")
         {
-            // Same order as the PaymentMethod enum, so the selected index converts directly
+
             _methodBox.Items.AddRange(new object[] { "Cash", "Mobile Money", "Bank Transfer" });
             _methodBox.SelectedIndex = 0;
 
@@ -48,7 +48,7 @@ namespace KWMS.Views
             _subscriptionBox.ValueMember = "SubscriptionID";
             _subscriptionBox.DataSource = result.Data;
 
-            // Suggest the monthly price as the amount (attached AFTER the data is loaded)
+
             _subscriptionBox.SelectedIndexChanged += (s, e) => SuggestAmount();
             SuggestAmount();
         }

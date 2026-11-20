@@ -1,10 +1,10 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Controllers
 {
-    /// <summary>Lets the administrator view registered users (read-only in version 1).</summary>
+
     public class UserController
     {
         private readonly UserRepository _users = new UserRepository();
@@ -16,7 +16,7 @@ namespace KWMS.Controllers
 
             try
             {
-                // UserRepository.GetAll never returns password hashes
+
                 return DataResult<List<User>>.Ok(_users.GetAll(searchText?.Trim(), role));
             }
             catch (MySqlException)

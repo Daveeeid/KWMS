@@ -1,4 +1,4 @@
-﻿using KWMS.Data;
+using KWMS.Data;
 using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
@@ -26,7 +26,7 @@ namespace KWMS.Controllers
             List<string> errors = CleanAndValidate(service);
             if (errors.Count > 0) return OperationResult.Fail(ValidationHelper.FormatErrors(errors));
 
-            service.CompanyID = companyId.Value;                 // always the manager's own company
+            service.CompanyID = companyId.Value;
             service.Status = RecordStatus.Active;
 
             try
@@ -59,7 +59,7 @@ namespace KWMS.Controllers
                 if (_services.NameExists(service.CompanyID, service.ServiceName, service.ServiceID))
                     return OperationResult.Fail("Your company already has another service with this name.");
 
-                // The SQL contains "AND CompanyID = ...", so another company's service is never changed
+
                 if (!_services.Update(service))
                     return OperationResult.Fail("The service could not be found.");
 

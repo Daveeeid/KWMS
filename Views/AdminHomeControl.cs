@@ -1,4 +1,4 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
@@ -43,7 +43,7 @@ namespace KWMS.Views
                 Height = 50
             };
 
-            // Fill first, then the Top controls (the last one added ends up highest)
+
             Controls.Add(cards);
             Controls.Add(toolbar);
             Controls.Add(title);

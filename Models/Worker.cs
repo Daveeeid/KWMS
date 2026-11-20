@@ -1,4 +1,4 @@
-﻿namespace KWMS.Models
+namespace KWMS.Models
 {
     public class Worker
     {
@@ -10,10 +10,10 @@
         public RecordStatus Status { get; set; } = RecordStatus.Active;
         public DateTime CreatedAt { get; set; }
 
-        public string UserName { get; set; } = string.Empty;   // display only
-        public string Email { get; set; } = string.Empty;      // display only
+        public string UserName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
-        // Business rule 13: inactive workers cannot receive new tasks
+
         public bool CanReceiveTasks => Status == RecordStatus.Active;
     }
 }

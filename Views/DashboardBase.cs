@@ -1,13 +1,13 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>
-    /// Shared layout for all four dashboards: sidebar (menu, change password, log out) and a
-    /// content area that shows ONE screen (a UserControl) at a time.
-    /// Logging out closes the form with DialogResult.Retry; Program.cs then shows the login again.
-    /// </summary>
+
+
+
+
+
     public class DashboardBase : Form
     {
         private readonly FlowLayoutPanel _menuPanel = new FlowLayoutPanel();
@@ -26,7 +26,7 @@ namespace KWMS.Views
             StartPosition = FormStartPosition.CenterScreen;
             Font = Theme.BaseFont;
 
-            // ----- Sidebar -----
+
             Panel sidebar = new Panel { Dock = DockStyle.Left, Width = 230, BackColor = Theme.Sidebar };
 
             Panel brandPanel = new Panel { Dock = DockStyle.Top, Height = 120, BackColor = Theme.Sidebar };
@@ -63,13 +63,13 @@ namespace KWMS.Views
             _menuPanel.FlowDirection = FlowDirection.TopDown;
             _menuPanel.WrapContents = false;
 
-            // Docking order: Fill first, then Top, then the Bottom buttons (last added = lowest)
+
             sidebar.Controls.Add(_menuPanel);
             sidebar.Controls.Add(brandPanel);
             sidebar.Controls.Add(changePasswordButton);
             sidebar.Controls.Add(logoutButton);
 
-            // ----- Content area -----
+
             ContentPanel.Dock = DockStyle.Fill;
             ContentPanel.BackColor = Theme.Background;
 
@@ -77,11 +77,11 @@ namespace KWMS.Views
             Controls.Add(sidebar);
         }
 
-        /// <summary>
-        /// Adds a sidebar button. 'createScreen' builds the screen shown when the button is clicked.
-        /// If it is null, the button only says the screen is built in a later stage.
-        /// showNow = true opens that screen immediately (used for the first menu item).
-        /// </summary>
+
+
+
+
+
         protected void AddMenuItem(string text, Func<Control>? createScreen = null, bool showNow = false)
         {
             Button button = new Button { Text = text, Width = 230, Height = 46 };
@@ -108,7 +108,7 @@ namespace KWMS.Views
             if (showNow && createScreen != null) Open();
         }
 
-        /// <summary>Replaces whatever is in the content area with a new screen.</summary>
+
         protected void ShowScreen(Control screen)
         {
             ContentPanel.SuspendLayout();
@@ -116,7 +116,7 @@ namespace KWMS.Views
             foreach (Control oldScreen in ContentPanel.Controls.Cast<Control>().ToList())
             {
                 ContentPanel.Controls.Remove(oldScreen);
-                oldScreen.Dispose();   // frees the old screen's resources
+                oldScreen.Dispose();
             }
 
             screen.Dock = DockStyle.Fill;
@@ -124,7 +124,7 @@ namespace KWMS.Views
             ContentPanel.ResumeLayout();
         }
 
-        /// <summary>Placeholder welcome screen used by dashboards whose real screens come in later stages.</summary>
+
         protected void ShowDescription(string text)
         {
             Panel panel = new Panel { BackColor = Theme.Background };
@@ -170,7 +170,7 @@ namespace KWMS.Views
         {
             if (UiHelper.Confirm("Do you want to log out?", "Confirm log out"))
             {
-                DialogResult = DialogResult.Retry;   // closes the form; Program.cs ends the session
+                DialogResult = DialogResult.Retry;
             }
         }
     }

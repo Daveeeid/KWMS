@@ -1,9 +1,9 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>Residents subscribed to this company's services (read-only).</summary>
+
     public class SubscribersControl : GridScreen
     {
         private readonly SubscriptionController _controller = new SubscriptionController();

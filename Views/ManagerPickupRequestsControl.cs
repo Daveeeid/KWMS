@@ -1,4 +1,4 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
@@ -54,7 +54,7 @@ namespace KWMS.Views
         private void Reject() => Act(r => _controller.Reject(r.RequestID),
             r => $"Reject the pickup request from {r.ResidentName}?");
 
-        // Shared: ask for confirmation, run the controller action, show the result, refresh
+
         private void Act(Func<PickupRequest, OperationResult> action, Func<PickupRequest, string> question)
         {
             PickupRequest? request = Selected<PickupRequest>();

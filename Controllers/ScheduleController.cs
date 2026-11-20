@@ -1,4 +1,4 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
@@ -40,8 +40,8 @@ namespace KWMS.Controllers
                     Notes = notes
                 };
 
-                // Creates the schedule and its Pending task together; returns 0 if the subscription
-                // is not Active or does not belong to this company
+
+
                 int id = _schedules.Create(schedule, companyId.Value);
                 if (id == 0)
                     return OperationResult.Fail("This resident has no active subscription with your company.");

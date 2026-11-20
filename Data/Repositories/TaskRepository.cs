@@ -1,12 +1,12 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
 {
     public class TaskRepository : BaseRepository
     {
-        // A task comes from EITHER a schedule OR a pickup request, so both are LEFT JOINed
-        // and COALESCE picks whichever one exists.
+
+
         private const string FromAndJoins =
             @" FROM CollectionTasks t
                LEFT JOIN CollectionSchedules cs ON cs.ScheduleID = t.ScheduleID
@@ -48,16 +48,16 @@ namespace KWMS.Data.Repositories
             GetList(SelectAll + "WHERE sv.CompanyID = @companyId ORDER BY CollectionDate DESC, t.TaskID DESC;",
                 MapTask, P("@companyId", companyId));
 
-        // Rule 6: a worker only ever sees their own tasks
+
         public List<CollectionTask> GetByWorker(int workerId) =>
             GetList(SelectAll + "WHERE t.WorkerID = @workerId ORDER BY CollectionDate DESC, t.TaskID DESC;",
                 MapTask, P("@workerId", workerId));
 
-        /// <summary>
-        /// Assigns (or re-assigns) a worker. Returns false when ANY of these is untrue:
-        /// the task belongs to this company, it has not started yet, and the worker
-        /// belongs to this company and is Active (rule 13).
-        /// </summary>
+
+
+
+
+
         public bool AssignWorker(int taskId, int workerId, int companyId)
         {
             const string sql = @"UPDATE CollectionTasks t
@@ -74,14 +74,14 @@ namespace KWMS.Data.Repositories
             return ExecuteUpdate(sql, P("@workerId", workerId), P("@taskId", taskId), P("@companyId", companyId)) > 0;
         }
 
-        // Rules 6 and 7: only the assigned worker can start, and only an Assigned task
+
         public bool Start(int taskId, int workerId) =>
             ExecuteUpdate(@"UPDATE CollectionTasks SET Status = 'InProgress', StartedAt = NOW()
                             WHERE TaskID = @taskId AND WorkerID = @workerId AND Status = 'Assigned';",
                 P("@taskId", taskId), P("@workerId", workerId)) > 0;
 
-        // Rule 8: only an InProgress task can be completed. For an additional pickup,
-        // the PickupRequest is marked Completed too (one transaction).
+
+
         public bool Complete(int taskId, int workerId)
         {
             using (MySqlConnection connection = DatabaseConnection.GetConnection())

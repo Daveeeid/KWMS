@@ -1,4 +1,4 @@
-﻿using MySqlConnector;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +21,7 @@ namespace KWMS.Data.Repositories
             }
         }
 
-        // Returns a dictionary: table name -> list of its column names
+
         public Dictionary<string, List<string>> GetColumnsOfTables(params string[] tableNames)
         {
             Dictionary<string, List<string>> tables =

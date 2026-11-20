@@ -1,4 +1,4 @@
-﻿using KWMS.Data;
+using KWMS.Data;
 using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
@@ -20,7 +20,7 @@ namespace KWMS.Controllers
             catch (MySqlException) { return DataResult<List<Worker>>.Fail(DatabaseDown); }
         }
 
-        /// <summary>Creates the worker AND their login account (one transaction, Stage 3).</summary>
+
         public OperationResult AddWorker(Worker worker, string userName, string email,
                                          string password, string confirmPassword)
         {
@@ -96,7 +96,7 @@ namespace KWMS.Controllers
 
             try
             {
-                // GetById includes the company filter, so this also proves the worker is ours
+
                 Worker? worker = _workers.GetById(workerId, companyId.Value);
                 if (worker == null) return OperationResult.Fail("The worker could not be found.");
 

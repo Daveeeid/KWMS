@@ -1,10 +1,10 @@
-﻿namespace KWMS.Views
+namespace KWMS.Views
 {
     public static class Theme
     {
-        public static readonly Color Primary = Color.FromArgb(46, 125, 50);        // green
+        public static readonly Color Primary = Color.FromArgb(46, 125, 50);
         public static readonly Color PrimaryDark = Color.FromArgb(27, 94, 32);
-        public static readonly Color Sidebar = Color.FromArgb(30, 41, 59);         // dark slate
+        public static readonly Color Sidebar = Color.FromArgb(30, 41, 59);
         public static readonly Color SidebarHover = Color.FromArgb(51, 65, 85);
         public static readonly Color Background = Color.FromArgb(243, 244, 246);
         public static readonly Color TextDark = Color.FromArgb(31, 41, 55);

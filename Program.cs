@@ -10,7 +10,7 @@ namespace KWMS
         {
             ApplicationConfiguration.Initialize();
 
-            // Last line of defence: any exception nobody caught shows a message instead of crashing
+
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += (sender, e) =>
                 MessageBox.Show("An unexpected error occurred. The action was not completed.\n\n" + e.Exception.Message,

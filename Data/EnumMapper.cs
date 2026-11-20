@@ -1,12 +1,12 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 
 namespace KWMS.Data
 {
-    /// <summary>
-    /// Converts between database text (e.g. 'COMPANY_MANAGER') and C# enums (UserRole.CompanyManager).
-    /// Most enums have the same names in both places, so Enum.Parse is enough.
-    /// Role and PaymentMethod need special handling because their database text differs.
-    /// </summary>
+
+
+
+
+
     public static class EnumMapper
     {
         public static string ToDb(UserRole role) => role switch
@@ -27,7 +27,7 @@ namespace KWMS.Data
             _ => throw new InvalidDataException($"Unknown or missing user role in database: '{value}'.")
         };
 
-        // Users.AccountStatus has no NOT NULL in your table, so NULL is treated as Inactive (safe default).
+
         public static RecordStatus ToRecordStatus(string? value) =>
             value == "Active" ? RecordStatus.Active : RecordStatus.Inactive;
 
@@ -47,7 +47,7 @@ namespace KWMS.Data
             _ => throw new InvalidDataException($"Unknown payment method in database: '{value}'.")
         };
 
-        // For enums whose C# names match the database text exactly (Weekly, InProgress, ...)
+
         public static T ToEnum<T>(string value) where T : struct, Enum => Enum.Parse<T>(value);
     }
 }

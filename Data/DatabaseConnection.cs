@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Configuration;
@@ -9,7 +9,7 @@ namespace KWMS.Data
 {
     internal class DatabaseConnection
     {
-        // Read the connection string once, from App.config
+
         private static readonly string _connectionString = LoadConnectionString();
 
         private static string LoadConnectionString()

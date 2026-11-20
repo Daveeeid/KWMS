@@ -1,10 +1,10 @@
-﻿using MySqlConnector;
+using MySqlConnector;
 
 namespace KWMS.Data
 {
-    /// <summary>
-    /// Small helpers to read a column BY NAME, including columns that may be NULL.
-    /// </summary>
+
+
+
     public static class DataReaderExtensions
     {
         public static string ReadString(this MySqlDataReader reader, string column) =>

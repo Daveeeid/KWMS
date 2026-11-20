@@ -1,9 +1,9 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>Lists one company's available services and lets the resident subscribe.</summary>
+
     public class CompanyServicesForm : Form
     {
         private readonly ResidentSubscriptionController _controller = new ResidentSubscriptionController();
@@ -43,7 +43,7 @@ namespace KWMS.Views
             bottom.Controls.Add(subscribeButton);
             bottom.Controls.Add(closeButton);
 
-            Controls.Add(_grid);      // Fill first, then Bottom
+            Controls.Add(_grid);
             Controls.Add(bottom);
             CancelButton = closeButton;
 

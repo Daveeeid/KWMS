@@ -1,8 +1,8 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 
 namespace KWMS.Views
 {
-    /// <summary>Lets the logged-in user (any role) change their own password.</summary>
+
     public class ChangePasswordForm : Form
     {
         private readonly AccountController _controller = new AccountController();

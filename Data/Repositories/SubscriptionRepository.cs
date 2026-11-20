@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -36,7 +36,7 @@ namespace KWMS.Data.Repositories
         public Subscription? GetById(int subscriptionId) =>
             GetOne(SelectAll + "WHERE sub.SubscriptionID = @id;", MapSubscription, P("@id", subscriptionId));
 
-        // Full history of one resident (newest first)
+
         public List<Subscription> GetByResident(int residentId) =>
             GetList(SelectAll + "WHERE sub.ResidentID = @residentId ORDER BY sub.StartDate DESC, sub.SubscriptionID DESC;",
                 MapSubscription, P("@residentId", residentId));
@@ -45,18 +45,18 @@ namespace KWMS.Data.Repositories
             GetOne(SelectAll + "WHERE sub.ResidentID = @residentId AND sub.Status = 'Active';",
                 MapSubscription, P("@residentId", residentId));
 
-        // Manager view: residents subscribed to THIS company's services
+
         public List<Subscription> GetByCompany(int companyId, bool activeOnly = false) =>
             GetList(SelectAll + @"WHERE sv.CompanyID = @companyId AND (@activeOnly = 0 OR sub.Status = 'Active')
                                   ORDER BY r.FullName;",
                 MapSubscription, P("@companyId", companyId), P("@activeOnly", activeOnly ? 1 : 0));
 
-        /// <summary>
-        /// Subscribes a resident to a service starting today.
-        /// Returns the new SubscriptionID, or 0 if the service or its company is inactive (rule 4).
-        /// THROWS MySqlException (DbHelper.IsDuplicateKey = true) if the resident already has an
-        /// active subscription (rule 2). The controller in Stage 8 will catch that.
-        /// </summary>
+
+
+
+
+
+
         public int Subscribe(int residentId, int serviceId)
         {
             const string sql = @"INSERT INTO Subscriptions (ResidentID, ServiceID, StartDate)
@@ -66,7 +66,7 @@ namespace KWMS.Data.Repositories
             return ExecuteInsert(sql, P("@residentId", residentId), P("@serviceId", serviceId));
         }
 
-        // A resident can only cancel their OWN active subscription
+
         public bool Cancel(int subscriptionId, int residentId) =>
             ExecuteUpdate(@"UPDATE Subscriptions SET Status = 'Cancelled', EndDate = CURDATE()
                             WHERE SubscriptionID = @id AND ResidentID = @residentId AND Status = 'Active';",

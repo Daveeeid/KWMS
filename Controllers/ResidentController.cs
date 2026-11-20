@@ -1,4 +1,4 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
@@ -30,7 +30,7 @@ namespace KWMS.Controllers
                 Resident? current = GetCurrentResident(out string error);
                 if (current == null) return OperationResult.Fail(error);
 
-                // IDs come from the session, not from the form
+
                 input.ResidentID = current.ResidentID;
                 input.UserID = current.UserID;
                 input.FullName = input.FullName.Trim();

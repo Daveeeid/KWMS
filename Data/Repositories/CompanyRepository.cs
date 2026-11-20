@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -10,10 +10,10 @@ namespace KWMS.Data.Repositories
 
         private readonly UserRepository _userRepository = new UserRepository();
 
-        /// <summary>
-        /// Creates the Companies row AND the company's first manager (Users row) in ONE transaction.
-        /// If the user insert fails, the company insert is rolled back too. Returns the new CompanyID.
-        /// </summary>
+
+
+
+
         public int RegisterWithManager(Company company, User manager)
         {
             const string sql = @"INSERT INTO Companies (CompanyName, RegistrationNumber, Phone, Address, Status)
@@ -28,7 +28,7 @@ namespace KWMS.Data.Repositories
                         P("@name", company.CompanyName), P("@reg", company.RegistrationNumber),
                         P("@phone", company.Phone), P("@address", company.Address));
 
-                    // Rules 1 and 5: fixed role, and the manager belongs to the new company
+
                     manager.Role = UserRole.CompanyManager;
                     manager.CompanyID = companyId;
                     manager.AccountStatus = RecordStatus.Active;
@@ -51,7 +51,7 @@ namespace KWMS.Data.Repositories
             CreatedAt = r.ReadDate("CreatedAt")
         };
 
-        // Optional search text (name or registration number) and optional status filter
+
         public List<Company> GetAll(string? searchText = null, RecordStatus? status = null)
         {
             string sql = SelectAll + @"
@@ -92,7 +92,7 @@ namespace KWMS.Data.Repositories
             ExecuteUpdate("UPDATE Companies SET Status = @status WHERE CompanyID = @id;",
                 P("@status", status.ToString()), P("@id", companyId)) > 0;
 
-        // excludeCompanyId lets an UPDATE check "is it used by ANOTHER company?"
+
         public bool RegistrationNumberExists(string registrationNumber, int excludeCompanyId = 0) =>
             Exists("SELECT COUNT(*) FROM Companies WHERE RegistrationNumber = @reg AND CompanyID <> @id;",
                 P("@reg", registrationNumber), P("@id", excludeCompanyId));

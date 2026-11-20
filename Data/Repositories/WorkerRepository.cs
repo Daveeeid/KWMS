@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -38,12 +38,12 @@ namespace KWMS.Data.Repositories
             GetOne(SelectAll + "WHERE w.WorkerID = @id AND w.CompanyID = @companyId;",
                 MapWorker, P("@id", workerId), P("@companyId", companyId));
 
-        /// <summary>
-        /// Creates the Users row and the Workers row in one transaction. Returns the new WorkerID.
-        /// </summary>
+
+
+
         public int Add(User user, Worker worker)
         {
-            // Rules 1 and 5: role is fixed, and the login belongs to the same company as the worker
+
             user.Role = UserRole.CollectionWorker;
             user.CompanyID = worker.CompanyID;
             user.AccountStatus = RecordStatus.Active;
@@ -74,8 +74,8 @@ namespace KWMS.Data.Repositories
                 P("@fullName", worker.FullName), P("@phone", worker.Phone),
                 P("@id", worker.WorkerID), P("@companyId", worker.CompanyID)) > 0;
 
-        // Changes the worker's status AND their login account status in one statement,
-        // so a deactivated worker can no longer log in.
+
+
         public bool SetStatus(int workerId, int companyId, RecordStatus status) =>
             ExecuteUpdate(@"UPDATE Workers w JOIN Users u ON u.UserID = w.UserID
                             SET w.Status = @status, u.AccountStatus = @status

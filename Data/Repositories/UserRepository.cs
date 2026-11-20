@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -7,11 +7,11 @@ namespace KWMS.Data.Repositories
     {
         private const string FromClause = " FROM Users u LEFT JOIN Companies c ON u.CompanyID = c.CompanyID ";
 
-        // Used for login: includes the real password hash
+
         private const string LoginColumns =
             "SELECT u.UserID, u.CompanyID, u.UserName, u.Email, u.PasswordHash, u.Role, u.AccountStatus, u.CreatedAt, c.CompanyName";
 
-        // Used for lists/grids: the hash is replaced by '' so it can never reach a screen
+
         private const string ListColumns =
             "SELECT u.UserID, u.CompanyID, u.UserName, u.Email, '' AS PasswordHash, u.Role, u.AccountStatus, u.CreatedAt, c.CompanyName";
 
@@ -65,7 +65,7 @@ namespace KWMS.Data.Repositories
 
         public int Insert(User user) => ExecuteInsert(InsertSql, InsertParameters(user));
 
-        // Same insert, but inside a transaction started by another repository
+
         public int Insert(User user, MySqlConnection connection, MySqlTransaction transaction) =>
             ExecuteInsertIn(connection, transaction, InsertSql, InsertParameters(user));
 
@@ -77,7 +77,7 @@ namespace KWMS.Data.Repositories
             ExecuteUpdate("UPDATE Users SET Email = @email WHERE UserID = @id;",
                 P("@email", email), P("@id", userId)) > 0;
 
-        // Used at startup to decide whether the first admin must be created
+
         public bool AnyAdminExists() =>
             Exists("SELECT COUNT(*) FROM Users WHERE Role = 'ADMIN';");
 

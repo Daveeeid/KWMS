@@ -1,12 +1,12 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>
-    /// Dialog to register a company (existing == null) or edit one.
-    /// Add mode also collects the company's first manager account.
-    /// </summary>
+
+
+
+
     public class CompanyForm : Form
     {
         private readonly CompanyController _controller = new CompanyController();
@@ -71,7 +71,7 @@ namespace KWMS.Views
                 AddRow("Confirm password *", _managerConfirmBox);
             }
 
-            // Buttons stay visible at the bottom
+
             Panel buttonPanel = new Panel { Dock = DockStyle.Bottom, Height = 70, BackColor = Theme.Background };
 
             Button saveButton = new Button { Text = isEdit ? "Save changes" : "Register company" };
@@ -85,7 +85,7 @@ namespace KWMS.Views
             buttonPanel.Controls.Add(saveButton);
             buttonPanel.Controls.Add(cancelButton);
 
-            Controls.Add(_fieldsPanel);   // Fill first, then Bottom
+            Controls.Add(_fieldsPanel);
             Controls.Add(buttonPanel);
             CancelButton = cancelButton;
         }
@@ -133,7 +133,7 @@ namespace KWMS.Views
                 Address = _addressBox.Text
             };
 
-            // The form only decides WHICH controller method to call. All rules live in the controller.
+
             OperationResult result = _existing == null
                 ? _controller.RegisterCompany(company, _managerUserNameBox.Text, _managerEmailBox.Text,
                                               _managerPasswordBox.Text, _managerConfirmBox.Text)

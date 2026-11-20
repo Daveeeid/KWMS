@@ -1,6 +1,6 @@
-﻿namespace KWMS.Views
+namespace KWMS.Views
 {
-    /// <summary>A white card with a colored strip, a big number and a caption.</summary>
+
     public class StatCard : Panel
     {
         private readonly Label _valueLabel = new Label();

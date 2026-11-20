@@ -1,9 +1,9 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>Add a worker with a login account, or edit a worker's name and phone.</summary>
+
     public class WorkerForm : FieldsDialog
     {
         private readonly WorkerController _controller = new WorkerController();

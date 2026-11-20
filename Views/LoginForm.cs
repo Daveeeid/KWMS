@@ -1,11 +1,11 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 
 namespace KWMS.Views
 {
-    /// <summary>
-    /// Collects the username and password and passes them to AuthController.
-    /// Closes with DialogResult.OK only when the login succeeded.
-    /// </summary>
+
+
+
+
     public class LoginForm : Form
     {
         private readonly AuthController _controller = new AuthController();
@@ -26,7 +26,7 @@ namespace KWMS.Views
             BackColor = Theme.Background;
             Font = Theme.BaseFont;
 
-            // Green header
+
             Panel header = new Panel { Dock = DockStyle.Top, Height = 110, BackColor = Theme.Primary };
             header.Controls.Add(new Label
             {
@@ -47,28 +47,28 @@ namespace KWMS.Views
                 Dock = DockStyle.Fill
             });
 
-            // Username
+
             Controls.Add(new Label { Text = "Username", Left = 30, Top = 135, Width = 340, ForeColor = Theme.TextMuted });
             _userNameBox.SetBounds(30, 158, 340, 28);
             _userNameBox.MaxLength = 50;
 
-            // Password
+
             Controls.Add(new Label { Text = "Password", Left = 30, Top = 200, Width = 340, ForeColor = Theme.TextMuted });
             _passwordBox.SetBounds(30, 223, 340, 28);
-            _passwordBox.UseSystemPasswordChar = true;   // shows dots instead of letters
+            _passwordBox.UseSystemPasswordChar = true;
             _passwordBox.MaxLength = 100;
 
-            // Error message area
+
             _messageLabel.SetBounds(30, 262, 340, 40);
             _messageLabel.ForeColor = Theme.Danger;
 
-            // Login button
+
             _loginButton.Text = "Log in";
             _loginButton.SetBounds(30, 310, 340, 42);
             Theme.StylePrimaryButton(_loginButton);
             _loginButton.Click += LoginButton_Click;
 
-            // Link to registration
+
             _registerLink.Text = "New resident? Create an account";
             _registerLink.SetBounds(30, 370, 340, 24);
             _registerLink.TextAlign = ContentAlignment.MiddleCenter;
@@ -81,7 +81,7 @@ namespace KWMS.Views
             Controls.Add(_registerLink);
             Controls.Add(header);
 
-            AcceptButton = _loginButton;   // pressing Enter clicks "Log in"
+            AcceptButton = _loginButton;
         }
 
         private void LoginButton_Click(object? sender, EventArgs e)
@@ -98,7 +98,7 @@ namespace KWMS.Views
                 return;
             }
 
-            DialogResult = DialogResult.OK;   // closes the form; Program.cs shows the dashboard
+            DialogResult = DialogResult.OK;
         }
 
         private void RegisterLink_Clicked(object? sender, LinkLabelLinkClickedEventArgs e)
@@ -107,7 +107,7 @@ namespace KWMS.Views
             {
                 if (registerForm.ShowDialog(this) == DialogResult.OK)
                 {
-                    _userNameBox.Text = registerForm.RegisteredUserName;   // convenience
+                    _userNameBox.Text = registerForm.RegisteredUserName;
                     _passwordBox.Clear();
                     _passwordBox.Focus();
                 }

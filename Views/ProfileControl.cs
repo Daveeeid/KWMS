@@ -1,9 +1,9 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>Household and contact information of the logged-in resident.</summary>
+
     public class ProfileControl : UserControl
     {
         private readonly ResidentController _controller = new ResidentController();

@@ -1,30 +1,30 @@
-﻿using KWMS.Data;
+using KWMS.Data;
 using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Controllers
 {
-    /// <summary>Handles login, resident registration and first-run admin creation.</summary>
+
     public class AuthController
     {
         private readonly UserRepository _users = new UserRepository();
         private readonly ResidentRepository _residents = new ResidentRepository();
 
-        // The three districts of Kigali City. The Register form fills its drop-down from this list.
+
         public static readonly string[] KigaliDistricts = { "Gasabo", "Kicukiro", "Nyarugenge" };
 
         private const string DefaultAdminUserName = "admin";
         private const string DefaultAdminEmail = "admin@kwms.local";
-        private const string DefaultAdminPassword = "Admin@12345";   // TEMPORARY, documented in the README
+        private const string DefaultAdminPassword = "Admin@12345";
 
-        // ---------------------------------------------------------------
-        // First-run setup
-        // ---------------------------------------------------------------
-        /// <summary>
-        /// Called once at startup. If no ADMIN exists, creates one.
-        /// Result.Message is empty when nothing was created.
-        /// </summary>
+
+
+
+
+
+
+
         public OperationResult EnsureDefaultAdmin()
         {
             try
@@ -59,9 +59,9 @@ namespace KWMS.Controllers
             }
         }
 
-        // ---------------------------------------------------------------
-        // Login
-        // ---------------------------------------------------------------
+
+
+
         public OperationResult Login(string userName, string password)
         {
             userName = userName.Trim();
@@ -73,16 +73,16 @@ namespace KWMS.Controllers
             {
                 User? user = _users.GetByUserName(userName);
 
-                // Same message for "no such user" and "wrong password", so an attacker
-                // cannot discover which usernames exist.
+
+
                 if (user == null || !PasswordHasher.Verify(password, user.PasswordHash))
                     return OperationResult.Fail("Invalid username or password.");
 
-                // The status is checked only AFTER the password is correct (same reason).
+
                 if (!user.IsActive)
                     return OperationResult.Fail("This account is inactive. Please contact your administrator.");
 
-                // Rule 5 depends on this: managers and workers must have a company
+
                 if (user.RequiresCompany && user.CompanyID == null)
                     return OperationResult.Fail("This account is not linked to a company. Please contact your administrator.");
 
@@ -99,13 +99,13 @@ namespace KWMS.Controllers
             }
         }
 
-        // ---------------------------------------------------------------
-        // Resident registration
-        // ---------------------------------------------------------------
+
+
+
         public OperationResult RegisterResident(string userName, string email, string password,
                                                 string confirmPassword, Resident resident)
         {
-            // Clean the input first
+
             userName = userName.Trim();
             email = email.Trim();
             resident.FullName = resident.FullName.Trim();
@@ -113,7 +113,7 @@ namespace KWMS.Controllers
             resident.Phone = NullIfEmpty(resident.Phone);
             resident.HouseAddress = NullIfEmpty(resident.HouseAddress);
 
-            // Validate everything and collect ALL problems, so the user can fix them in one go
+
             List<string> errors = new List<string>();
 
             if (resident.FullName.Length < 2 || resident.FullName.Length > 100)
@@ -141,7 +141,7 @@ namespace KWMS.Controllers
 
             try
             {
-                // Friendly duplicate checks (the database UNIQUE constraints are the safety net below)
+
                 if (_users.UserNameExists(userName)) errors.Add("That username is already taken.");
                 if (_users.EmailExists(email)) errors.Add("That e-mail address is already registered.");
                 if (errors.Count > 0) return OperationResult.Fail(FormatErrors(errors));
@@ -150,10 +150,10 @@ namespace KWMS.Controllers
                 {
                     UserName = userName,
                     Email = email,
-                    PasswordHash = PasswordHasher.Hash(password)   // the plain password is never stored
+                    PasswordHash = PasswordHasher.Hash(password)
                 };
 
-                // Creates the Users row AND the Residents row in one transaction (Stage 3)
+
                 _residents.Register(user, resident);
                 return OperationResult.Ok("Your account was created. You can now log in.");
             }

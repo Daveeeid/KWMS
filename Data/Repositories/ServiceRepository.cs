@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -23,12 +23,12 @@ namespace KWMS.Data.Repositories
             CompanyName = r.ReadString("CompanyName")
         };
 
-        // All services of one company (manager view)
+
         public List<Service> GetByCompany(int companyId) =>
             GetList(SelectAll + "WHERE s.CompanyID = @companyId ORDER BY s.ServiceName;",
                 MapService, P("@companyId", companyId));
 
-        // Only what a resident may subscribe to: Active service of an Active company
+
         public List<Service> GetAvailableByCompany(int companyId) =>
             GetList(SelectAll + @"WHERE s.CompanyID = @companyId AND s.Status = 'Active' AND c.Status = 'Active'
                                   ORDER BY s.ServiceName;",
@@ -57,7 +57,7 @@ namespace KWMS.Data.Repositories
             ExecuteUpdate("UPDATE Services SET Status = @status WHERE ServiceID = @id AND CompanyID = @companyId;",
                 P("@status", status.ToString()), P("@id", serviceId), P("@companyId", companyId)) > 0;
 
-        // The database has UNIQUE (CompanyID, ServiceName); this gives a friendly pre-check
+
         public bool NameExists(int companyId, string serviceName, int excludeServiceId = 0) =>
             Exists(@"SELECT COUNT(*) FROM Services
                      WHERE CompanyID = @companyId AND ServiceName = @name AND ServiceID <> @id;",

@@ -1,10 +1,10 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Controllers
 {
-    /// <summary>The manager's read-only view of residents subscribed to the company's services.</summary>
+
     public class SubscriptionController : ManagerControllerBase
     {
         private readonly SubscriptionRepository _subscriptions = new SubscriptionRepository();

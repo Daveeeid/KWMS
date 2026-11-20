@@ -1,4 +1,4 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
@@ -21,7 +21,7 @@ namespace KWMS.Controllers
             catch (MySqlException) { return DataResult<List<Complaint>>.Fail(DatabaseDown); }
         }
 
-        // Companies the resident has (or had) a subscription with
+
         public DataResult<List<Company>> GetComplaintCompanies()
         {
             try
@@ -69,7 +69,7 @@ namespace KWMS.Controllers
             catch (MySqlException) { return OperationResult.Fail(DatabaseDown); }
         }
 
-        // Only responses to the resident's OWN complaints are returned
+
         public DataResult<List<ComplaintResponse>> GetResponses(int complaintId)
         {
             try

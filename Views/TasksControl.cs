@@ -1,4 +1,4 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
@@ -39,7 +39,7 @@ namespace KWMS.Views
         protected override void OnSelectionChanged()
         {
             CollectionTask? task = Selected<CollectionTask>();
-            _assignButton.Enabled = task != null && task.CanBeAssigned;   // Pending or Assigned only
+            _assignButton.Enabled = task != null && task.CanBeAssigned;
             _assignButton.Text = task != null && task.Status == CollectionTaskStatus.Assigned
                 ? "Change worker" : "Assign worker";
         }

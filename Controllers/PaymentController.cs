@@ -1,4 +1,4 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
@@ -17,7 +17,7 @@ namespace KWMS.Controllers
             catch (MySqlException) { return DataResult<List<Payment>>.Fail(DatabaseDown); }
         }
 
-        // All subscriptions of this company (a late payment may arrive after a cancellation)
+
         public DataResult<List<Subscription>> GetSubscriptions()
         {
             int? companyId = CompanyId;
@@ -50,7 +50,7 @@ namespace KWMS.Controllers
                 Payment payment = new Payment
                 {
                     SubscriptionID = subscriptionId,
-                    RecordedByUserID = SessionManager.CurrentUser!.UserID,   // the logged-in manager
+                    RecordedByUserID = SessionManager.CurrentUser!.UserID,
                     Amount = amount,
                     PaymentMethod = method,
                     PaymentDate = paymentDate.Date,
@@ -58,7 +58,7 @@ namespace KWMS.Controllers
                     Notes = notes
                 };
 
-                // Rule 9: the SQL inserts only if the subscription exists AND belongs to this company
+
                 return _payments.Record(payment, companyId.Value) > 0
                     ? OperationResult.Ok($"Payment of {amount:N0} RWF was recorded.")
                     : OperationResult.Fail("The payment could not be recorded. The subscription was not found in your company.");

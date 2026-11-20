@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -30,13 +30,13 @@ namespace KWMS.Data.Repositories
         public Resident? GetByUserId(int userId) =>
             GetOne(SelectAll + "WHERE UserID = @id;", MapResident, P("@id", userId));
 
-        /// <summary>
-        /// Creates the Users row AND the Residents row in ONE transaction.
-        /// If either insert fails, neither is saved. Returns the new ResidentID.
-        /// </summary>
+
+
+
+
         public int Register(User user, Resident resident)
         {
-            // Rule 1: a resident account always has the RESIDENT role and no company
+
             user.Role = UserRole.Resident;
             user.CompanyID = null;
             user.AccountStatus = RecordStatus.Active;
@@ -62,7 +62,7 @@ namespace KWMS.Data.Repositories
             }
         }
 
-        // The resident can only update their own row (ResidentID AND UserID must match)
+
         public bool UpdateProfile(Resident resident)
         {
             const string sql = @"UPDATE Residents

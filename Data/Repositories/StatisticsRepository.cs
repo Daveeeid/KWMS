@@ -1,10 +1,10 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 
 namespace KWMS.Data.Repositories
 {
     public class StatisticsRepository : BaseRepository
     {
-        /// <summary>One query with seven small sub-queries, so the screen needs only one database round trip.</summary>
+
         public SystemStatistics GetSystemStatistics()
         {
             const string sql = @"

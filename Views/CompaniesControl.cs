@@ -1,4 +1,4 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
@@ -14,7 +14,7 @@ namespace KWMS.Views
         private readonly Button _editButton = new Button();
         private readonly Button _toggleButton = new Button();
 
-        // The Company object behind the highlighted row (null when nothing is selected)
+
         private Company? SelectedCompany => _grid.CurrentRow?.DataBoundItem as Company;
 
         public CompaniesControl()
@@ -22,7 +22,7 @@ namespace KWMS.Views
             BackColor = Theme.Background;
             Padding = new Padding(25);
 
-            // ----- Grid -----
+
             UiHelper.StyleGrid(_grid);
             UiHelper.AddColumn(_grid, "Company name", "CompanyName", 160);
             UiHelper.AddColumn(_grid, "Registration no.", "RegistrationNumber", 100);
@@ -34,7 +34,7 @@ namespace KWMS.Views
             _grid.SelectionChanged += (s, e) => UpdateButtons();
             _grid.CellDoubleClick += (s, e) => { if (e.RowIndex >= 0) EditSelected(); };
 
-            // ----- Toolbar -----
+
             _searchBox.Width = 240;
             _searchBox.PlaceholderText = "Search name or registration no.";
             _searchBox.Margin = new Padding(0, 4, 10, 0);
@@ -44,7 +44,7 @@ namespace KWMS.Views
             _statusFilter.Width = 140;
             _statusFilter.Margin = new Padding(0, 4, 20, 0);
             _statusFilter.Items.AddRange(new object[] { "All statuses", "Active", "Inactive" });
-            _statusFilter.SelectedIndex = 0;                       // set BEFORE attaching the event
+            _statusFilter.SelectedIndex = 0;
             _statusFilter.SelectedIndexChanged += (s, e) => LoadCompanies();
 
             _addButton.Text = "+ Register company";
@@ -73,8 +73,8 @@ namespace KWMS.Views
                 Height = 50
             };
 
-            Controls.Add(_grid);      // Fill first
-            Controls.Add(toolbar);    // then Top controls
+            Controls.Add(_grid);
+            Controls.Add(toolbar);
             Controls.Add(title);
 
             Load += (s, e) => LoadCompanies();
@@ -101,7 +101,7 @@ namespace KWMS.Views
             UpdateButtons();
         }
 
-        // Enables/disables buttons and changes the toggle button to match the selected company
+
         private void UpdateButtons()
         {
             Company? company = SelectedCompany;

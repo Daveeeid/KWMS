@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using KWMS.Data;
 using KWMS.Data.Repositories;
 using KWMS.Models;
@@ -6,7 +6,7 @@ using MySqlConnector;
 
 namespace KWMS.Controllers
 {
-    /// <summary>TEMPORARY: exercises every repository. Deleted after Stage 3 is confirmed.</summary>
+
     public class RepositoryTestController
     {
         private readonly CompanyRepository _companies = new CompanyRepository();
@@ -46,9 +46,9 @@ namespace KWMS.Controllers
         private void RunAllChecks()
         {
             string tag = DateTime.Now.ToString("HHmmss");
-            const int WrongId = 999999;   // an ID that cannot exist, used to simulate "someone else's data"
+            const int WrongId = 999999;
 
-            // ---------- Companies ----------
+
             Company company = new Company
             {
                 CompanyName = "S3 Test Company " + tag,
@@ -63,7 +63,7 @@ namespace KWMS.Controllers
             Check("Company read back correctly", loadedCompany != null && loadedCompany.CompanyName == company.CompanyName);
             Check("Search finds the company", _companies.GetAll(tag).Any(c => c.CompanyID == companyId));
 
-            // ---------- Manager user ----------
+
             User manager = new User
             {
                 CompanyID = companyId,
@@ -81,7 +81,7 @@ namespace KWMS.Controllers
             Check("User lists never expose password hashes",
                 _users.GetAll(manager.UserName).All(u => u.PasswordHash == ""));
 
-            // ---------- Service ----------
+
             Service service = new Service
             {
                 CompanyID = companyId,
@@ -94,7 +94,7 @@ namespace KWMS.Controllers
             Check("Service inserted", serviceId > 0);
             Check("Service available to residents", _services.GetAvailableByCompany(companyId).Count == 1);
 
-            // ---------- Resident registration (transaction) ----------
+
             User residentUser = new User
             {
                 UserName = "s3test_res_" + tag,
@@ -118,7 +118,7 @@ namespace KWMS.Controllers
             catch (MySqlException ex) when (DbHelper.IsDuplicateKey(ex)) { duplicateBlocked = true; }
             Check("Duplicate user name rejected (and rolled back)", duplicateBlocked);
 
-            // ---------- Subscriptions ----------
+
             int subscriptionId = _subscriptions.Subscribe(residentId, serviceId);
             Check("Resident subscribed", subscriptionId > 0);
 
@@ -130,7 +130,7 @@ namespace KWMS.Controllers
                 _subscriptions.GetActiveByResident(residentId)?.SubscriptionID == subscriptionId);
             Check("Manager sees the subscribed resident", _subscriptions.GetByCompany(companyId).Count == 1);
 
-            // ---------- Pickup request -> task ----------
+
             PickupRequest request = new PickupRequest
             {
                 SubscriptionID = subscriptionId,
@@ -149,7 +149,7 @@ namespace KWMS.Controllers
                 tasks.Count > 0 && tasks[0].Status == CollectionTaskStatus.Pending);
             int taskId = tasks.Count > 0 ? tasks[0].TaskID : 0;
 
-            // ---------- Worker and task workflow ----------
+
             User workerUser = new User
             {
                 UserName = "s3test_wrk_" + tag,
@@ -173,7 +173,7 @@ namespace KWMS.Controllers
             Check("Worker sees the task in their own list",
                 _tasks.GetByWorker(workerId).Any(t => t.TaskID == taskId && t.Status == CollectionTaskStatus.Completed));
 
-            // ---------- Schedule + inactive worker ----------
+
             CollectionSchedule schedule = new CollectionSchedule
             {
                 SubscriptionID = subscriptionId,
@@ -194,7 +194,7 @@ namespace KWMS.Controllers
             Check("Inactive worker cannot receive tasks (rule 13)",
                 scheduleTask != null && !_tasks.AssignWorker(scheduleTask.TaskID, workerId, companyId));
 
-            // ---------- Payments ----------
+
             Payment payment = new Payment
             {
                 SubscriptionID = subscriptionId,
@@ -210,7 +210,7 @@ namespace KWMS.Controllers
             Check("Payment history shows 'Mobile Money' correctly",
                 history.Count == 1 && history[0].PaymentMethod == PaymentMethod.MobileMoney);
 
-            // ---------- Complaints ----------
+
             Complaint complaint = new Complaint
             {
                 ResidentID = residentId,
@@ -231,7 +231,7 @@ namespace KWMS.Controllers
             Check("Complaint marked Resolved", _complaints.UpdateStatus(complaintId, companyId, ComplaintStatus.Resolved));
             Check("Resident can read the response", _complaints.GetResponses(complaintId).Count == 1);
 
-            // ---------- Inactive company (rule 4) ----------
+
             Check("Company deactivated", _companies.SetStatus(companyId, RecordStatus.Inactive));
             User resident2User = new User
             {

@@ -1,4 +1,4 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
@@ -57,7 +57,7 @@ namespace KWMS.Views
             {
                 form.ShowDialog(this);
             }
-            LoadData();   // the status may have changed to "In progress"
+            LoadData();
         }
 
         private void ChangeStatus()

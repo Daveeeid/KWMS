@@ -1,4 +1,4 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
@@ -23,7 +23,7 @@ namespace KWMS.Controllers
             catch (MySqlException) { return DataResult<List<CollectionTask>>.Fail(DatabaseDown); }
         }
 
-        // Rule 13: only active workers appear in the assignment list
+
         public DataResult<List<Worker>> GetAssignableWorkers()
         {
             int? companyId = CompanyId;
@@ -44,7 +44,7 @@ namespace KWMS.Controllers
 
             try
             {
-                // Pre-check for a precise message. The repository SQL checks the same things again.
+
                 Worker? worker = _workers.GetById(workerId, companyId.Value);
                 if (worker == null) return OperationResult.Fail("The selected worker could not be found.");
                 if (!worker.CanReceiveTasks) return OperationResult.Fail("Inactive workers cannot receive tasks.");

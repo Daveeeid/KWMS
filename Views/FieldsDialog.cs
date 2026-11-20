@@ -1,11 +1,11 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 
 namespace KWMS.Views
 {
-    /// <summary>
-    /// Base class for add/edit dialogs. A subclass adds its fields with AddRow() and
-    /// implements OnSave(), which calls a controller and passes the result to ShowResult().
-    /// </summary>
+
+
+
+
     public abstract class FieldsDialog : Form
     {
         private readonly Panel _fieldsPanel = new Panel();
@@ -38,14 +38,14 @@ namespace KWMS.Views
             buttonPanel.Controls.Add(saveButton);
             buttonPanel.Controls.Add(cancelButton);
 
-            Controls.Add(_fieldsPanel);   // Fill first, then Bottom
+            Controls.Add(_fieldsPanel);
             Controls.Add(buttonPanel);
             CancelButton = cancelButton;
         }
 
         protected abstract void OnSave();
 
-        // Adds "label above input" at the next free vertical position
+
         protected void AddRow(string labelText, Control input, int height = 28)
         {
             _fieldsPanel.Controls.Add(new Label
@@ -78,7 +78,7 @@ namespace KWMS.Views
             _nextY += 40;
         }
 
-        // Shows the controller's message. On success the dialog closes with DialogResult.OK.
+
         protected void ShowResult(OperationResult result)
         {
             if (!result.Success)

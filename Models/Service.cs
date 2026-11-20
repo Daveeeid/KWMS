@@ -1,4 +1,4 @@
-﻿namespace KWMS.Models
+namespace KWMS.Models
 {
     public class Service
     {
@@ -11,6 +11,6 @@
         public RecordStatus Status { get; set; } = RecordStatus.Active;
         public DateTime CreatedAt { get; set; }
 
-        public string CompanyName { get; set; } = string.Empty;   // display only
+        public string CompanyName { get; set; } = string.Empty;
     }
 }

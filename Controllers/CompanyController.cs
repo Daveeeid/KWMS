@@ -1,11 +1,11 @@
-﻿using KWMS.Data;
+using KWMS.Data;
 using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Controllers
 {
-    /// <summary>Administrator operations on companies. Every method checks the role first.</summary>
+
     public class CompanyController
     {
         private readonly CompanyRepository _companies = new CompanyRepository();
@@ -16,9 +16,9 @@ namespace KWMS.Controllers
 
         private static bool IsAdmin() => SessionManager.IsInRole(UserRole.Admin);
 
-        // ---------------------------------------------------------------
-        // Read
-        // ---------------------------------------------------------------
+
+
+
         public DataResult<List<Company>> GetCompanies(string? searchText, RecordStatus? status)
         {
             if (!IsAdmin()) return DataResult<List<Company>>.Fail(NoPermission);
@@ -33,9 +33,9 @@ namespace KWMS.Controllers
             }
         }
 
-        // ---------------------------------------------------------------
-        // Register a company together with its first manager account
-        // ---------------------------------------------------------------
+
+
+
         public OperationResult RegisterCompany(Company company, string managerUserName, string managerEmail,
                                                string password, string confirmPassword)
         {
@@ -60,7 +60,7 @@ namespace KWMS.Controllers
 
             try
             {
-                // Friendly duplicate checks (the UNIQUE constraints in the database are the safety net)
+
                 if (_companies.RegistrationNumberExists(company.RegistrationNumber))
                     errors.Add("A company with this registration number already exists.");
                 if (_users.UserNameExists(managerUserName))
@@ -77,7 +77,7 @@ namespace KWMS.Controllers
                     PasswordHash = PasswordHasher.Hash(password)
                 };
 
-                _companies.RegisterWithManager(company, manager);   // one transaction
+                _companies.RegisterWithManager(company, manager);
 
                 return OperationResult.Ok(
                     $"Company '{company.CompanyName}' was registered with manager account '{managerUserName}'.");
@@ -93,9 +93,9 @@ namespace KWMS.Controllers
             }
         }
 
-        // ---------------------------------------------------------------
-        // Update company details (status is changed separately)
-        // ---------------------------------------------------------------
+
+
+
         public OperationResult UpdateCompany(Company company)
         {
             if (!IsAdmin()) return OperationResult.Fail(NoPermission);
@@ -106,7 +106,7 @@ namespace KWMS.Controllers
 
             try
             {
-                // Pass the company's own ID so it does not collide with itself
+
                 if (_companies.RegistrationNumberExists(company.RegistrationNumber, company.CompanyID))
                     return OperationResult.Fail("Another company already uses this registration number.");
 
@@ -125,9 +125,9 @@ namespace KWMS.Controllers
             }
         }
 
-        // ---------------------------------------------------------------
-        // Activate / deactivate
-        // ---------------------------------------------------------------
+
+
+
         public OperationResult SetCompanyStatus(int companyId, RecordStatus status)
         {
             if (!IsAdmin()) return OperationResult.Fail(NoPermission);
@@ -147,9 +147,9 @@ namespace KWMS.Controllers
             }
         }
 
-        // ---------------------------------------------------------------
-        // Private helpers
-        // ---------------------------------------------------------------
+
+
+
         private static void CleanCompany(Company company)
         {
             company.CompanyName = company.CompanyName.Trim();

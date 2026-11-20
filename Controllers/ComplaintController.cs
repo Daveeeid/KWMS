@@ -1,4 +1,4 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
@@ -58,7 +58,7 @@ namespace KWMS.Controllers
                 if (_complaints.AddResponse(response, companyId.Value) == 0)
                     return OperationResult.Fail("The response could not be saved.");
 
-                // A first response moves an Open complaint to "In progress"
+
                 if (complaint.Status == ComplaintStatus.Open)
                     _complaints.UpdateStatus(complaintId, companyId.Value, ComplaintStatus.InProgress);
 

@@ -1,16 +1,16 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Controllers
 {
-    /// <summary>Which tasks the "My tasks" screen should list.</summary>
+
     public enum MyTaskFilter { ToDo, Completed, Cancelled, All }
 
-    /// <summary>
-    /// Everything a Collection Worker can do. The worker is found from the login session,
-    /// so a worker can never act on another worker's tasks (rule 6).
-    /// </summary>
+
+
+
+
     public class WorkerTaskController
     {
         private readonly WorkerRepository _workers = new WorkerRepository();
@@ -20,10 +20,10 @@ namespace KWMS.Controllers
         private const string NoPermission = "You do not have permission to perform this action.";
         private const string DatabaseDown = "Cannot reach the database. Is MySQL running in XAMPP?";
 
-        /// <summary>
-        /// Finds the Workers row of the logged-in user. Returns null (and explains why in 'error')
-        /// if the user is not a worker, has no worker profile, or the profile is inactive.
-        /// </summary>
+
+
+
+
         private Worker? GetCurrentWorker(out string error)
         {
             error = string.Empty;
@@ -52,9 +52,9 @@ namespace KWMS.Controllers
             return worker;
         }
 
-        // ---------------------------------------------------------------
-        // Read
-        // ---------------------------------------------------------------
+
+
+
         public DataResult<List<CollectionTask>> GetMyTasks(MyTaskFilter filter)
         {
             try
@@ -67,7 +67,7 @@ namespace KWMS.Controllers
                 switch (filter)
                 {
                     case MyTaskFilter.ToDo:
-                        // Nearest date first, so the next job is at the top
+
                         tasks = tasks
                             .Where(t => t.Status == CollectionTaskStatus.Assigned || t.Status == CollectionTaskStatus.InProgress)
                             .OrderBy(t => t.CollectionDate).ThenBy(t => t.TaskID);
@@ -97,9 +97,9 @@ namespace KWMS.Controllers
             catch (MySqlException) { return DataResult<WorkerStatistics>.Fail(DatabaseDown); }
         }
 
-        // ---------------------------------------------------------------
-        // Rule 7: Assigned -> InProgress
-        // ---------------------------------------------------------------
+
+
+
         public OperationResult StartTask(int taskId)
         {
             try
@@ -107,7 +107,7 @@ namespace KWMS.Controllers
                 Worker? worker = GetCurrentWorker(out string error);
                 if (worker == null) return OperationResult.Fail(error);
 
-                // Looking the task up in the worker's OWN list is the rule 6 check
+
                 CollectionTask? task = _tasks.GetByWorker(worker.WorkerID).FirstOrDefault(t => t.TaskID == taskId);
                 if (task == null)
                     return OperationResult.Fail("This task is not assigned to you.");
@@ -115,7 +115,7 @@ namespace KWMS.Controllers
                 if (!task.CanStart)
                     return OperationResult.Fail("This collection cannot be started: " + DescribeStatus(task.Status));
 
-                // The SQL checks worker, status and ownership once more (safety net for two people clicking at once)
+
                 if (!_tasks.Start(taskId, worker.WorkerID))
                     return OperationResult.Fail("The task changed while you were working on it. Please refresh the list.");
 
@@ -124,9 +124,9 @@ namespace KWMS.Controllers
             catch (MySqlException) { return OperationResult.Fail(DatabaseDown); }
         }
 
-        // ---------------------------------------------------------------
-        // Rule 8: InProgress -> Completed
-        // ---------------------------------------------------------------
+
+
+
         public OperationResult CompleteTask(int taskId)
         {
             try
@@ -141,7 +141,7 @@ namespace KWMS.Controllers
                 if (!task.CanComplete)
                     return OperationResult.Fail("This collection cannot be completed: " + DescribeStatus(task.Status));
 
-                // Also marks the pickup request as Completed when the task came from one (one transaction)
+
                 if (!_tasks.Complete(taskId, worker.WorkerID))
                     return OperationResult.Fail("The task changed while you were working on it. Please refresh the list.");
 
@@ -150,7 +150,7 @@ namespace KWMS.Controllers
             catch (MySqlException) { return OperationResult.Fail(DatabaseDown); }
         }
 
-        // Turns a status into a sentence for the error messages above
+
         private static string DescribeStatus(CollectionTaskStatus status) => status switch
         {
             CollectionTaskStatus.Pending => "it has not been assigned to you yet.",

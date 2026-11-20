@@ -1,4 +1,4 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
@@ -7,8 +7,8 @@ namespace KWMS.Views
     {
         private readonly ServiceController _controller = new ServiceController();
 
-        // Field initializers run before the base constructor, so these are ready
-        // even if OnSelectionChanged fires early.
+
+
         private readonly Button _editButton = new Button();
         private readonly Button _toggleButton = new Button();
 

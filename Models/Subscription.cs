@@ -1,4 +1,4 @@
-﻿namespace KWMS.Models
+namespace KWMS.Models
 {
     public class Subscription
     {
@@ -10,7 +10,7 @@
         public SubscriptionStatus Status { get; set; } = SubscriptionStatus.Active;
         public DateTime CreatedAt { get; set; }
 
-        // Display only (from JOINs)
+
         public int CompanyID { get; set; }
         public string CompanyName { get; set; } = string.Empty;
         public string ServiceName { get; set; } = string.Empty;
@@ -22,7 +22,7 @@
         public bool IsActive => Status == SubscriptionStatus.Active;
 
         public string DisplayText => $"{ResidentName} - {ServiceName}";
-        // The payment drop-down needs the status, because a resident can have past subscriptions
+
         public string PaymentDisplayText => $"{ResidentName} - {ServiceName} ({Status}, since {StartDate:dd MMM yyyy})";
     }
 }

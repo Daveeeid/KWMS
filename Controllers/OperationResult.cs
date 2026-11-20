@@ -1,9 +1,9 @@
-﻿namespace KWMS.Controllers
+namespace KWMS.Controllers
 {
-    /// <summary>
-    /// What a controller returns to a View: did it work, and what message should the user see?
-    /// The View never needs to know about exceptions or SQL.
-    /// </summary>
+
+
+
+
     public class OperationResult
     {
         public bool Success { get; }

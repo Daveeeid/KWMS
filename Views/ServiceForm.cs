@@ -1,9 +1,9 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>Add (existing == null) or edit a service.</summary>
+
     public class ServiceForm : FieldsDialog
     {
         private readonly ServiceController _controller = new ServiceController();
@@ -27,7 +27,7 @@ namespace KWMS.Views
         {
             _existing = existing;
 
-            _frequencyBox.Items.AddRange(Enum.GetNames<CollectionFrequency>());   // Weekly, Biweekly, Monthly
+            _frequencyBox.Items.AddRange(Enum.GetNames<CollectionFrequency>());
             _frequencyBox.SelectedIndex = 0;
 
             AddRow("Service name *", _nameBox);

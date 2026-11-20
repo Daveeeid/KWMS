@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using KWMS.Controllers;
 using KWMS.Models;
 
@@ -35,7 +35,7 @@ namespace KWMS.Views
             BackColor = Theme.Background;
             Font = Theme.BaseFont;
 
-            Controls.Add(_conversationBox);   // Fill first
+            Controls.Add(_conversationBox);
 
             if (respond != null)
             {

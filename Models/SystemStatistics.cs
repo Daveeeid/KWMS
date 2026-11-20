@@ -1,6 +1,6 @@
-﻿namespace KWMS.Models
+namespace KWMS.Models
 {
-    /// <summary>The numbers shown on the administrator's dashboard cards.</summary>
+
     public class SystemStatistics
     {
         public int TotalCompanies { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace KWMS.Models
+namespace KWMS.Models
 {
     public class ComplaintResponse
     {
@@ -8,6 +8,6 @@
         public string ResponseText { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
 
-        public string ManagerName { get; set; } = string.Empty;   // display only
+        public string ManagerName { get; set; } = string.Empty;
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace KWMS.Models
+namespace KWMS.Models
 {
     public class Payment
     {
@@ -12,7 +12,7 @@
         public string? Notes { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        // Display only
+
         public string ResidentName { get; set; } = string.Empty;
         public string ServiceName { get; set; } = string.Empty;
         public string CompanyName { get; set; } = string.Empty;

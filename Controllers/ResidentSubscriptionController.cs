@@ -1,4 +1,4 @@
-﻿using KWMS.Data;
+using KWMS.Data;
 using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
@@ -43,7 +43,7 @@ namespace KWMS.Controllers
                 Resident? resident = GetCurrentResident(out string error);
                 if (resident == null) return OperationResult.Fail(error);
 
-                // Rule 2 (friendly message; the database UNIQUE index is the safety net below)
+
                 if (_subscriptions.GetActiveByResident(resident.ResidentID) != null)
                     return OperationResult.Fail("You already have an active subscription. Cancel it before subscribing to another service.");
 
@@ -51,7 +51,7 @@ namespace KWMS.Controllers
                 if (service == null || service.Status != RecordStatus.Active)
                     return OperationResult.Fail("This service is not available.");
 
-                // Rule 4
+
                 Company? company = _companies.GetById(service.CompanyID);
                 if (company == null || !company.CanAcceptNewSubscriptions())
                     return OperationResult.Fail("This company is inactive and cannot accept new subscriptions.");
@@ -75,7 +75,7 @@ namespace KWMS.Controllers
                 Resident? resident = GetCurrentResident(out string error);
                 if (resident == null) return OperationResult.Fail(error);
 
-                // The SQL contains "AND ResidentID = ...", so only your own subscription can be cancelled
+
                 return _subscriptions.CancelAndCleanUp(subscriptionId, resident.ResidentID)
                     ? OperationResult.Ok("Your subscription was cancelled, together with its unstarted collections.")
                     : OperationResult.Fail("This subscription cannot be cancelled. It may already be cancelled.");

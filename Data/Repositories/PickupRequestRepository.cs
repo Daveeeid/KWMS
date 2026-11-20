@@ -1,4 +1,4 @@
-﻿using KWMS.Models;
+using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Data.Repositories
@@ -14,7 +14,7 @@ namespace KWMS.Data.Repositories
               JOIN Residents r ON r.ResidentID = sub.ResidentID
               JOIN Services sv ON sv.ServiceID = sub.ServiceID ";
 
-        // Only changes a request that is still Pending and belongs to this company
+
         private const string ChangeStatusSql =
             @"UPDATE PickupRequests pr
               JOIN Subscriptions sub ON sub.SubscriptionID = pr.SubscriptionID
@@ -43,10 +43,10 @@ namespace KWMS.Data.Repositories
             GetList(SelectAll + "WHERE sv.CompanyID = @companyId ORDER BY pr.CreatedAt DESC;",
                 MapRequest, P("@companyId", companyId));
 
-        /// <summary>
-        /// Rule 3: the request is only inserted if the subscription is Active and belongs to
-        /// this resident. Returns the new RequestID, or 0 if those conditions fail.
-        /// </summary>
+
+
+
+
         public int Create(PickupRequest request, int residentId)
         {
             const string sql = @"INSERT INTO PickupRequests (SubscriptionID, RequestedDate, Description)
@@ -59,7 +59,7 @@ namespace KWMS.Data.Repositories
                 P("@subscriptionId", request.SubscriptionID), P("@residentId", residentId));
         }
 
-        // Approving a request also creates its Pending collection task (one transaction)
+
         public bool Approve(int requestId, int companyId)
         {
             using (MySqlConnection connection = DatabaseConnection.GetConnection())

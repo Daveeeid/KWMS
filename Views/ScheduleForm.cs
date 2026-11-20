@@ -1,4 +1,4 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
@@ -29,7 +29,7 @@ namespace KWMS.Views
             AddRow("Collection time *", _timeBox);
             AddRow("Notes (optional)", _notesBox, 60);
 
-            // Fill the drop-down. Set the Member names BEFORE the DataSource.
+
             DataResult<List<Subscription>> result = new SubscriptionController().GetSubscribers(null, activeOnly: true);
 
             if (!result.Success)

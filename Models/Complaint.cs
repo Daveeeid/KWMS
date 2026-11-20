@@ -1,4 +1,4 @@
-﻿namespace KWMS.Models
+namespace KWMS.Models
 {
     public class Complaint
     {
@@ -10,7 +10,7 @@
         public ComplaintStatus Status { get; set; } = ComplaintStatus.Open;
         public DateTime CreatedAt { get; set; }
 
-        // Display only
+
         public string ResidentName { get; set; } = string.Empty;
         public string CompanyName { get; set; } = string.Empty;
 

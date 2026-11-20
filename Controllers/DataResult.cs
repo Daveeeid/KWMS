@@ -1,9 +1,9 @@
-﻿namespace KWMS.Controllers
+namespace KWMS.Controllers
 {
-    /// <summary>
-    /// What a controller returns when the View asked for DATA (for example a list of companies).
-    /// Success = false means Data must not be used, and Message explains why.
-    /// </summary>
+
+
+
+
     public class DataResult<T>
     {
         public bool Success { get; }

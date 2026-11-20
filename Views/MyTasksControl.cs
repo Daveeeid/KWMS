@@ -1,9 +1,9 @@
-﻿using KWMS.Controllers;
+using KWMS.Controllers;
 using KWMS.Models;
 
 namespace KWMS.Views
 {
-    /// <summary>The worker's own tasks, with Start and Complete actions.</summary>
+
     public class MyTasksControl : GridScreen
     {
         private readonly WorkerTaskController _controller = new WorkerTaskController();
@@ -21,7 +21,7 @@ namespace KWMS.Views
             UiHelper.AddColumn(Grid, "Service", "ServiceName", 80);
             UiHelper.AddColumn(Grid, "Status", "StatusDisplay", 80);
 
-            // The order of these items matches the MyTaskFilter enum order used in LoadData
+
             _filter = AddFilter(230, "To do (assigned / in progress)", "Completed", "Cancelled", "All my tasks");
 
             AddButton(_startButton, "Start collection", 160, StartSelected);
@@ -44,12 +44,12 @@ namespace KWMS.Views
             OnSelectionChanged();
         }
 
-        // The buttons are enabled only when the rule allows the action (the controller checks again)
+
         protected override void OnSelectionChanged()
         {
             CollectionTask? task = Selected<CollectionTask>();
-            _startButton.Enabled = task != null && task.CanStart;         // rule 7
-            _completeButton.Enabled = task != null && task.CanComplete;   // rule 8
+            _startButton.Enabled = task != null && task.CanStart;
+            _completeButton.Enabled = task != null && task.CanComplete;
         }
 
         private void StartSelected()

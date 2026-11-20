@@ -1,18 +1,18 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
 namespace KWMS.Controllers
 {
-    /// <summary>Actions every logged-in user may perform on their OWN account.</summary>
+
     public class AccountController
     {
         private readonly UserRepository _users = new UserRepository();
 
         public OperationResult ChangePassword(string currentPassword, string newPassword, string confirmPassword)
         {
-            // The user is taken from the session, never from a text box,
-            // so nobody can change someone else's password.
+
+
             User? sessionUser = SessionManager.CurrentUser;
             if (sessionUser == null) return OperationResult.Fail("You must be logged in.");
 
@@ -27,7 +27,7 @@ namespace KWMS.Controllers
 
             try
             {
-                // The session does not keep the hash, so load it again to verify the current password
+
                 User? dbUser = _users.GetByUserName(sessionUser.UserName);
 
                 if (dbUser == null || dbUser.UserID != sessionUser.UserID

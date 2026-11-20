@@ -1,4 +1,4 @@
-﻿using KWMS.Data.Repositories;
+using KWMS.Data.Repositories;
 using KWMS.Models;
 using MySqlConnector;
 
@@ -21,7 +21,7 @@ namespace KWMS.Controllers
             catch (MySqlException) { return DataResult<List<PickupRequest>>.Fail(DatabaseDown); }
         }
 
-        // Approving also creates the Pending collection task (one transaction, Stage 3)
+
         public OperationResult Approve(int requestId)
         {
             int? companyId = CompanyId;
