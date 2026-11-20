@@ -57,6 +57,11 @@ namespace KWMS.Views
             Controls.Add(box);
         }
 
+        private void InitializeComponent()
+        {
+
+        }
+
         private void SaveButton_Click(object? sender, EventArgs e)
         {
             OperationResult result = _controller.ChangePassword(_currentBox.Text, _newBox.Text, _confirmBox.Text);
